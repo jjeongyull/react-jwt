@@ -1,25 +1,53 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { setUserInfo, clearUserInfo } from './features/user/userSlice';
+
+// api
+import postApi from './utils/api';
+import cookiesFunction from './utils/cookie';
+// page
+import MainPage from './pages/MainPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+
+// css
 import './App.css';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const checkToken = async () => {
+    try {
+      const cookie = cookiesFunction.getCookie('jwt');
+      const response = await postApi({ cmd: 'loginChk', jwt: cookie });
+      if (response.success) {
+        dispatch(setUserInfo(response.user));
+        navigate('/main');
+      } else {
+        dispatch(clearUserInfo());
+      }
+    } catch (error) {
+      console.error('토큰 에러:', error);
+      dispatch(clearUserInfo());
+    }
+  };
+
+  useEffect(() => {
+    const jwtFromCookie = cookiesFunction.getCookie('jwt');
+    if (jwtFromCookie) {
+      checkToken();
+    }
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path='/main' element={<MainPage/>}/>
+    </Routes>
   );
-}
+};
 
 export default App;
