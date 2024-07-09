@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { setUserInfo, clearUserInfo } from './features/user/userSlice';
 
 // api
@@ -13,10 +13,12 @@ import RegisterPage from './pages/RegisterPage';
 
 // css
 import './App.css';
+import Sidebar from './components/SideBar';
 
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
 
   const checkToken = async () => {
     try {
@@ -45,7 +47,9 @@ const App = () => {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path='/main' element={<MainPage/>}/>
+      <Route path="/main" element={<Sidebar />}>
+        <Route index element={<MainPage projects={projects} setProjects={setProjects} />} />
+      </Route>
     </Routes>
   );
 };
