@@ -10,7 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <BrowserRouter basename='/react_test'>
+    <BrowserRouter>
+    {/* <BrowserRouter basename='/react_test'> */}
       <React.StrictMode>
         <App />
       </React.StrictMode>

@@ -1,39 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../features/user/userSlice';
 import postApi from '../utils/api';
-import Alert from '../components/Alert';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
 
-const ProjectDialog = ({ open, onClose, addProject }) => {
+const ProjectDialog = ({ open, onClose, addProject, project }) => {
   const [projectName, setProjectName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [contentCount, setContentCount] = useState(0);
   const userInfo = useSelector(selectUserInfo);
   const [error, setError] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('error');
 
+  useEffect(() => {
+    if (project) {
+      setProjectName(project.projectName);
+      setStartDate(project.startDate);
+      setEndDate(project.endDate);
+    } else {
+      setProjectName('');
+      setStartDate('');
+      setEndDate('');
+    }
+  }, [project]);
+
   const projectInsert = async () => {
     const data = {
-      cmd: 'insert_project',
+      cmd: project ? 'update_project' : 'insert_project', // 등록과 수정 구분
+      idx: project ? project.idx : null, // 수정 시에만 idx 전달
       projectName,
       startDate,
       endDate,
-      contentCount,
       write_user: userInfo.user_id
     };
+
     try {
       const result = await postApi(data);
       if (result.success) {
-        setAlertMessage('프로젝트 등록이 완료되었습니다.');
+        setAlertMessage(project ? '프로젝트 수정이 완료되었습니다.' : '프로젝트 등록이 완료되었습니다.');
         setAlertOpen(true);
         addProject(result.project);
         onClose();
       } else {
-        setError(result.error || '프로젝트 등록에 오류가 발생하였습니다.');
+        setError(result.error || (project ? '프로젝트 수정에 오류가 발생하였습니다.' : '프로젝트 등록에 오류가 발생하였습니다.'));
         setAlertMessage(result.error || 'Registration failed');
         setAlertSeverity('error');
         setAlertOpen(true);
@@ -49,7 +60,7 @@ const ProjectDialog = ({ open, onClose, addProject }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>프로젝트 등록</DialogTitle>
+      <DialogTitle>프로젝트 {project ? '수정' : '등록'}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           프로젝트의 정보를 입력하세요.
@@ -87,19 +98,10 @@ const ProjectDialog = ({ open, onClose, addProject }) => {
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
         />
-        <TextField
-          margin="dense"
-          label="콘텐츠 갯수"
-          type="number"
-          fullWidth
-          variant="standard"
-          value={contentCount}
-          onChange={(e) => setContentCount(Number(e.target.value))}
-        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>취소</Button>
-        <Button onClick={projectInsert}>등록</Button>
+        <Button onClick={projectInsert}>{project ? '수정' : '등록'}</Button>
       </DialogActions>
     </Dialog>
   );

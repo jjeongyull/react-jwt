@@ -14,11 +14,12 @@ import RegisterPage from './pages/RegisterPage';
 // css
 import './App.css';
 import Sidebar from './components/SideBar';
+import ProjectDetail from './pages/ProjectDetail';
 
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [projects, setProjects] = useState([]);
+  const [selectProjectName, setSelectProjectName] = useState([]);
 
   const checkToken = async () => {
     try {
@@ -48,7 +49,8 @@ const App = () => {
       <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/main" element={<Sidebar />}>
-        <Route index element={<MainPage projects={projects} setProjects={setProjects} />} />
+        <Route index element={<MainPage setSelectProjectName={setSelectProjectName}/>} />
+        <Route path='project/:id' element={<ProjectDetail selectProjectName={selectProjectName}/>} />
       </Route>
     </Routes>
   );

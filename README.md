@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# 프로젝트 관리 툴
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 사용 라이브러리
 
-## Available Scripts
+1. Material Design
+2. redux toolkit
+3. axios
+4. react-router-dom
 
-In the project directory, you can run:
+## 기능 설명
 
-### `npm start`
+### JWT 로그인을 통한 사용자 정보 관리
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+프로젝트 관리 툴은 JWT(JSON Web Token)를 사용하여 사용자 로그인 정보를 안전하게 관리합니다. 사용자가 로그인하면 JWT 토큰을 발급받고, 이 토큰을 사용하여 사용자 정보를 Redux에 저장합니다. 이를 통해 애플리케이션 전역에서 로그인한 사용자의 정보를 효율적으로 관리할 수 있습니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 프로젝트 생성 및 관리
 
-### `npm test`
+로그인한 사용자는 자신의 프로젝트를 생성하고 관리할 수 있습니다. 프로젝트를 생성할 때는 프로젝트명, 시작일, 종료일 등의 정보를 입력하여 새로운 프로젝트를 등록할 수 있습니다. 각 프로젝트는 사용자와 연동되어 있어, 사용자가 생성한 프로젝트만 조회할 수 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 콘텐츠 관리
 
-### `npm run build`
+각 프로젝트에는 여러 개의 콘텐츠가 포함될 수 있습니다. 사용자는 프로젝트 상세 페이지에서 해당 프로젝트에 속하는 콘텐츠를 추가하고 관리할 수 있습니다. 각 콘텐츠는 콘텐츠명, 완료 여부 등의 정보를 가지고 있으며, 완료 처리가 가능합니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 메인 페이지에서의 프로젝트 목록 표시
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+사용자는 메인 페이지에서 자신이 생성한 모든 프로젝트 목록을 확인할 수 있습니다. 각 프로젝트는 프로젝트명, 총 콘텐츠 갯수, 완료된 콘텐츠 갯수, 시작일, 종료일 등의 정보를 표시합니다. 이를 통해 사용자는 각 프로젝트의 진행 상태를 한 눈에 파악할 수 있습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 프로젝트 삭제 시 하위 콘텐츠 자동 삭제
 
-### `npm run eject`
+사용자가 프로젝트를 삭제할 경우, 해당 프로젝트에 속하는 모든 콘텐츠도 자동으로 삭제됩니다. 이를 통해 데이터 정합성을 유지하고 사용자 경험을 개선합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 권한 관리
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+각 사용자는 자신이 생성한 프로젝트만 볼 수 있으며, 다른 사용자가 생성한 프로젝트는 볼 수 없습니다. 이를 통해 프로젝트와 관련된 데이터는 각 사용자에게 적절히 제한된 범위에서만 접근할 수 있습니다.

@@ -31,6 +31,10 @@ const Sidebar = () => {
 
   const drawerWidth = 240;
 
+  const gotoPage = () => {
+    navigate('/main');
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
@@ -52,8 +56,8 @@ const Sidebar = () => {
           )}
         </Box>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+          {['프로젝트 보기'].map((text, index) => (
+            <ListItem button key={text} onClick={() => gotoPage(text)}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
@@ -62,16 +66,6 @@ const Sidebar = () => {
           ))}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ p: 2 }}>
           <Button onClick={confirmOpen} variant="contained" fullWidth>
